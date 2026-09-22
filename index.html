@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Inter as a clean, modern fallback for VAG Rounded/Segoe UI -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
@@ -17,120 +17,63 @@
                 extend: {
                     colors: {
                         kemkes: {
-                            turquoise: '#00A89D', // Medium Turquoise
-                            darkTurquoise: '#00837B', // Darker shade for hover states
-                            greenYellow: '#C2D500', // Green Yellow
-                            grey: '#808285', // Grey for neutrality
+                            turquoise: '#00A89D',
+                            darkTurquoise: '#00837B',
+                            greenYellow: '#C2D500',
+                            grey: '#808285',
                             lightGrey: '#F3F4F6'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'Segoe UI', 'sans-serif'], // Emulating Kemenkes secondary font
+                        sans: ['Inter', 'Segoe UI', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background-color: #f8fafc;
-            /* Hide scrollbar for a cleaner look but keep functionality */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        body::-webkit-scrollbar {
-            display: none;
-        }
+        body { background-color: #f8fafc; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
         
-        /* Custom styling for file inputs */
         input[type="file"]::file-selector-button {
-            border: none;
-            background: #e5e7eb;
-            padding: 8px 16px;
-            border-radius: 6px;
-            color: #374151;
-            cursor: pointer;
-            transition: background .2s ease-in-out;
-            margin-right: 12px;
-            font-size: 0.875rem;
-            font-weight: 500;
+            border: none; background: #e5e7eb; padding: 8px 16px; border-radius: 6px;
+            color: #374151; cursor: pointer; transition: background .2s ease-in-out;
+            margin-right: 12px; font-size: 0.875rem; font-weight: 500;
         }
-        input[type="file"]::file-selector-button:hover {
-            background: #d1d5db;
-        }
+        input[type="file"]::file-selector-button:hover { background: #d1d5db; }
 
-        /* Glassmorphism effect for the header */
-        .glass-header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-        }
-
+        .glass-header { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(229, 231, 235, 0.5); }
         .toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #00A89D;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 16px;
-            position: fixed;
-            z-index: 50;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            opacity: 0;
-            transition: opacity 0.3s, visibility 0.3s;
+            visibility: hidden; min-width: 250px; background-color: #00A89D; color: #fff; text-align: center;
+            border-radius: 8px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px;
+            transform: translateX(-50%); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); opacity: 0; transition: opacity 0.3s, visibility 0.3s;
         }
-
-        .toast.show {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Styling for edit mode inputs to blend better */
+        .toast.show { visibility: visible; opacity: 1; }
         .edit-input {
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            padding: 2px 6px;
-            width: 100%;
-            font-size: inherit;
-            color: inherit;
-            background-color: #ffffff;
+            border: 1px solid #d1d5db; border-radius: 4px; padding: 2px 6px; width: 100%;
+            font-size: inherit; color: inherit; background-color: #ffffff;
         }
-        .edit-input:focus {
-            outline: none;
-            border-color: #00A89D;
-            box-shadow: 0 0 0 1px #00A89D;
-        }
+        .edit-input:focus { outline: none; border-color: #00A89D; box-shadow: 0 0 0 1px #00A89D; }
     </style>
 </head>
 <body class="font-sans text-gray-800 antialiased flex h-screen overflow-hidden relative">
 
     <section id="login-section" class="absolute inset-0 z-50 flex flex-col md:flex-row h-screen w-full bg-white transition-opacity duration-500">
-        <!-- Panel Kiri: Foto Kegiatan & Branding -->
         <div class="hidden md:flex flex-1 relative overflow-hidden bg-gray-100">
-            <!-- Background Image dengan efek pencerahan -->
-            <img src="DIG06230.JPG" alt="Kegiatan Promkes" class="absolute inset-0 w-full h-full object-cover filter brightness-110 contrast-105">
-            
-            <!-- Overlay Gradient agar teks/logo tetap terbaca jika ditaruh di atasnya -->
+            <img src="DIG06230.JPG" alt="Kegiatan Promkes" class="absolute inset-0 w-full h-full object-cover filter brightness-110 contrast-105" onerror="this.src='https://placehold.co/800x1200/00A89D/FFFFFF?text=RS+Kemenkes+Surabaya'">
             <div class="absolute inset-0 bg-gradient-to-t from-kemkes-darkTurquoise/60 to-transparent"></div>
-            
-            <!-- Logo overlay di atas foto -->
             <div class="relative z-10 p-12 flex flex-col justify-end w-full h-full pb-16">
                  <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl inline-block max-w-sm shadow-2xl animate-[fadeIn_1s_ease-in-out]">
-                    <img src="IMG-20260719-WA0017.jpg" alt="Promkes RS Kemenkes Surabaya" class="w-full object-contain mb-4">
+                    <img src="IMG-20260719-WA0017.jpg" alt="Promkes RS Kemenkes Surabaya" class="w-full object-contain mb-4" onerror="this.src='https://placehold.co/400x150/FFFFFF/00A89D?text=Logo+Kemenkes'">
                     <p class="text-sm text-gray-700 font-medium border-l-4 border-kemkes-turquoise pl-3">Portal Informasi & Manajemen Data<br>Kegiatan Promosi Kesehatan.</p>
                  </div>
             </div>
         </div>
         
-        <!-- Panel Kanan: Form Login -->
         <div class="flex-1 flex items-center justify-center p-8 bg-white shadow-[-20px_0_40px_-15px_rgba(0,0,0,0.2)] z-10 relative">
             <div class="w-full max-w-sm space-y-8 animate-[fadeIn_0.5s_ease-in-out]">
                 <div class="text-center md:hidden mb-6 flex justify-center">
-                    <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-48 object-contain drop-shadow-md">
+                    <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-48 object-contain drop-shadow-md" onerror="this.src='https://placehold.co/400x150/FFFFFF/00A89D?text=Logo+Kemenkes'">
                 </div>
                 <div>
                     <h2 class="text-3xl font-bold text-gray-800 text-center md:text-left">Selamat Datang</h2>
@@ -140,35 +83,27 @@
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">Username / NIP</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <i class="fa-solid fa-user text-gray-400"></i>
-                            </div>
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-user text-gray-400"></i></div>
                             <input type="text" id="loginUsername" required class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none transition-shadow bg-gray-50 focus:bg-white text-sm" placeholder="Masukkan username">
                         </div>
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">Password</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <i class="fa-solid fa-lock text-gray-400"></i>
-                            </div>
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-lock text-gray-400"></i></div>
                             <input type="password" id="loginPassword" class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none transition-shadow bg-gray-50 focus:bg-white text-sm" placeholder="••••••••">
                         </div>
                     </div>
-                    
                     <button type="submit" class="w-full py-3 px-4 bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white font-semibold rounded-xl shadow-lg shadow-kemkes-turquoise/30 transition-all transform hover:-translate-y-0.5 text-sm">
                         Masuk <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                     </button>
                     
                     <div class="relative flex items-center py-2">
-                        <div class="flex-grow border-t border-gray-200"></div>
-                        <span class="flex-shrink-0 mx-4 text-gray-400 text-xs font-medium">ATAU</span>
-                        <div class="flex-grow border-t border-gray-200"></div>
+                        <div class="flex-grow border-t border-gray-200"></div><span class="flex-shrink-0 mx-4 text-gray-400 text-xs font-medium">ATAU</span><div class="flex-grow border-t border-gray-200"></div>
                     </div>
                     
                     <button type="button" id="btnGoogleLogin" class="w-full py-3 px-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 text-sm flex items-center justify-center gap-3">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
-                        Login dengan Google
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google"> Login dengan Google
                     </button>
                 </form>
                 <p class="text-xs text-center text-gray-400 mt-8">© 2026 RS Kemenkes Surabaya.</p>
@@ -177,266 +112,295 @@
     </section>
 
     <div id="app-container" class="hidden w-full h-full flex flex-row">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-xl h-full flex flex-col hidden md:flex flex-shrink-0 z-20 relative">
+            <div class="p-6 border-b border-gray-100 flex items-center justify-center flex-col gap-3">
+                <img src="IMG-20260719-WA0017.jpg" alt="Logo Promkes" class="w-40 h-auto object-contain" onerror="this.src='https://placehold.co/400x150/FFFFFF/00A89D?text=Logo+Kemenkes'">
+            </div>
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-xl h-full flex flex-col hidden md:flex flex-shrink-0 z-20">
-        <div class="p-6 border-b border-gray-100 flex items-center justify-center flex-col gap-3">
-            <img src="IMG-20260719-WA0017.jpg" alt="Logo Promkes" class="w-40 h-auto object-contain">
-        </div>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl transition-all shadow-md shadow-kemkes-turquoise/20 font-medium">
+                    <i class="fa-solid fa-chart-pie w-5"></i> Dashboard Kegiatan
+                </button>
+                <button onclick="switchTab('form')" id="nav-form" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium">
+                    <i class="fa-solid fa-plus-circle w-5"></i> Input Kegiatan Baru
+                </button>
+                <hr class="my-4 border-gray-100">
+                <button onclick="switchTab('petugas')" id="nav-petugas" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium">
+                    <i class="fa-solid fa-users w-5"></i> Database Petugas
+                </button>
+                <button onclick="switchTab('arsip')" id="nav-arsip" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium">
+                    <i class="fa-solid fa-file-contract w-5"></i> Arsip Surat
+                </button>
+            </nav>
 
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl transition-all shadow-md shadow-kemkes-turquoise/20 font-medium">
-                <i class="fa-solid fa-chart-pie w-5"></i>
-                Dashboard Kegiatan
-            </button>
-            <button onclick="switchTab('form')" id="nav-form" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium">
-                <i class="fa-solid fa-plus-circle w-5"></i>
-                Input Kegiatan Baru
-            </button>
-            <hr class="my-4 border-gray-100">
-            <button class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium opacity-50 cursor-not-allowed" title="Fitur dalam pengembangan">
-                <i class="fa-solid fa-users w-5"></i>
-                Database Petugas
-            </button>
-            <button class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium opacity-50 cursor-not-allowed" title="Fitur dalam pengembangan">
-                <i class="fa-solid fa-file-contract w-5"></i>
-                Arsip Surat
-            </button>
-        </nav>
-
-        <div class="p-4 border-t border-gray-100">
-            <div class="flex items-center gap-3 px-4 py-2">
-                <div class="w-8 h-8 rounded-full bg-kemkes-turquoise text-white flex items-center justify-center font-bold text-sm">
-                    A
-                </div>
-                <div class="text-sm">
-                    <p class="font-semibold text-gray-800">Admin Promkes</p>
-                    <p class="text-xs text-gray-500">Unit Layanan Terpadu</p>
+            <div class="p-4 border-t border-gray-100">
+                <div class="flex items-center gap-3 px-4 py-2">
+                    <div class="w-8 h-8 rounded-full bg-kemkes-turquoise text-white flex items-center justify-center font-bold text-sm">A</div>
+                    <div class="text-sm">
+                        <p class="font-semibold text-gray-800">Admin Promkes</p>
+                        <p class="text-xs text-gray-500">Unit Layanan Terpadu</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </aside>
+        </aside>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-gray-50/50">
-        
-        <!-- Mobile Header -->
-        <header class="md:hidden glass-header flex items-center justify-between p-4 z-20 shadow-sm">
-            <div class="flex items-center gap-2">
-                <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-8 h-8 object-cover rounded bg-white">
-                <h1 class="text-sm font-bold text-gray-800 truncate">RS Kemenkes Surabaya</h1>
-            </div>
-            <button id="mobileMenuBtn" class="text-gray-600 hover:text-kemkes-turquoise p-2">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
-        </header>
-
-        <!-- Mobile Menu Overlay -->
-        <div id="mobileMenu" class="fixed inset-0 bg-gray-900/50 z-40 hidden backdrop-blur-sm">
-            <div class="absolute right-0 top-0 bottom-0 w-64 bg-white shadow-2xl flex flex-col transform transition-transform translate-x-full" id="mobileMenuPanel">
-                <div class="p-4 flex justify-end border-b border-gray-100">
-                    <button id="closeMobileMenuBtn" class="text-gray-500 hover:text-red-500 p-2">
-                        <i class="fa-solid fa-times text-xl"></i>
-                    </button>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-gray-50/50">
+            <!-- Mobile Header -->
+            <header class="md:hidden glass-header flex items-center justify-between p-4 z-20 shadow-sm">
+                <div class="flex items-center gap-2">
+                    <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-8 h-8 object-cover rounded bg-white" onerror="this.src='https://placehold.co/100x100/FFFFFF/00A89D?text=RS'">
+                    <h1 class="text-sm font-bold text-gray-800 truncate">RS Kemenkes Surabaya</h1>
                 </div>
-                <nav class="p-4 space-y-2">
-                    <button onclick="switchTab('dashboard'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl">
-                        <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
-                    </button>
-                    <button onclick="switchTab('form'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl">
-                        <i class="fa-solid fa-plus-circle w-5"></i> Input Kegiatan
-                    </button>
-                </nav>
-            </div>
-        </div>
+                <button id="mobileMenuBtn" class="text-gray-600 hover:text-kemkes-turquoise p-2"><i class="fa-solid fa-bars text-xl"></i></button>
+            </header>
 
-        <!-- Scrollable Content -->
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto">
-            
-            <!-- SECTION: INPUT FORM -->
-            <section id="section-form" class="hidden animate-[fadeIn_0.3s_ease-in-out]">
-                <div class="mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                        <i class="fa-solid fa-pen-to-square text-kemkes-turquoise"></i>
-                        Form Data Kegiatan Promosi Kesehatan
-                    </h2>
-                    <p class="text-gray-500 mt-1">Masukkan detail kegiatan promkes, surat pendukung, dan petugas yang ditugaskan.</p>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenu" class="fixed inset-0 bg-gray-900/50 z-40 hidden backdrop-blur-sm">
+                <div class="absolute right-0 top-0 bottom-0 w-64 bg-white shadow-2xl flex flex-col transform transition-transform translate-x-full" id="mobileMenuPanel">
+                    <div class="p-4 flex justify-end border-b border-gray-100">
+                        <button id="closeMobileMenuBtn" class="text-gray-500 hover:text-red-500 p-2"><i class="fa-solid fa-times text-xl"></i></button>
+                    </div>
+                    <nav class="p-4 space-y-2">
+                        <button onclick="switchTab('dashboard'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl">
+                            <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+                        </button>
+                        <button onclick="switchTab('form'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+                            <i class="fa-solid fa-plus-circle w-5"></i> Input Kegiatan
+                        </button>
+                        <button onclick="switchTab('petugas'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+                            <i class="fa-solid fa-users w-5"></i> Database Petugas
+                        </button>
+                        <button onclick="switchTab('arsip'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+                            <i class="fa-solid fa-file-contract w-5"></i> Arsip Surat
+                        </button>
+                    </nav>
                 </div>
+            </div>
 
-                <form id="activityForm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-8">
-                    
-                    <!-- Block 1: Informasi Dasar -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
-                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
-                            Informasi Kegiatan
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Nama Kegiatan <span class="text-red-500">*</span></label>
-                                <input type="text" id="namaKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="Contoh: Penyuluhan Gizi Seimbang">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Tanggal Kegiatan <span class="text-red-500">*</span></label>
-                                <input type="date" id="tanggalKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none">
-                            </div>
-                            <div class="space-y-2 md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Tempat Kegiatan <span class="text-red-500">*</span></label>
-                                <input type="text" id="tempatKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="Contoh: Ruang Tunggu Poliklinik Lt. 1">
-                            </div>
-                        </div>
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto pb-24">
+                
+                <!-- SECTION: INPUT FORM -->
+                <section id="section-form" class="hidden animate-[fadeIn_0.3s_ease-in-out]">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-kemkes-turquoise"></i>
+                            Form Data Kegiatan Promosi Kesehatan
+                        </h2>
+                        <p class="text-gray-500 mt-1 text-sm">Masukkan detail kegiatan promkes, dokumen pendukung, dan petugas.</p>
                     </div>
 
-                    <!-- Block 2: Dokumen & Tautan -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
-                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
-                            Dokumen & Laporan
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Link Surat Permohonan / Masuk (G-Drive)</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-brands fa-google-drive text-gray-400"></i>
-                                    </div>
-                                    <input type="url" id="linkSuratMasuk" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
-                                </div>
-                                <p class="text-xs text-gray-500">Atau upload file fisik (jika link kosong):</p>
-                                <input type="file" id="fileSuratMasuk" accept=".pdf,.doc,.docx" class="w-full text-sm text-gray-500">
-                            </div>
-
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Link Laporan Kegiatan (G-Drive)</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-brands fa-google-drive text-gray-400"></i>
-                                    </div>
-                                    <input type="url" id="linkLaporan" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
-                                </div>
-                            </div>
-
-                            <div class="space-y-2 md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Link Dokumentasi Foto/Video (G-Drive)</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-regular fa-images text-gray-400"></i>
-                                    </div>
-                                    <input type="url" id="linkDokumentasi" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Block 3: Petugas & Surat Tugas -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
-                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
-                            Petugas Pelaksana & Surat Tugas
-                        </h3>
+                    <form id="activityForm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-8">
                         
-                        <div class="space-y-4">
-                            <div class="bg-kemkes-lightGrey/50 p-4 rounded-xl border border-gray-200">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Surat Tugas / Keterangan (Opsional, bisa diupdate nanti)</label>
-                                <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-                                    <input type="url" id="linkSuratTugas" class="flex-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="Link G-Drive Surat Tugas...">
-                                    <span class="text-sm text-gray-500 font-medium">ATAU</span>
-                                    <input type="file" id="fileSuratTugas" accept=".pdf" class="flex-1 w-full text-sm text-gray-500">
+                        <!-- Block 1: Informasi -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> Informasi Kegiatan
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Nama Kegiatan <span class="text-red-500">*</span></label>
+                                    <input type="text" id="namaKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none" placeholder="Contoh: Penyuluhan Gizi Seimbang">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Tanggal Kegiatan <span class="text-red-500">*</span></label>
+                                    <input type="date" id="tanggalKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none">
+                                </div>
+                                <div class="space-y-2 md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700">Tempat Kegiatan <span class="text-red-500">*</span></label>
+                                    <input type="text" id="tempatKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none" placeholder="Contoh: Ruang Tunggu Poliklinik Lt. 1">
                                 </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Daftar Petugas</label>
-                                <p class="text-xs text-gray-500 mb-3">Tambahkan petugas satu per satu beserta nomor WhatsApp (opsional).</p>
-                                
-                                <div id="petugasListContainer" class="space-y-2 mb-3">
-                                    <!-- Dynamic list of officers will appear here -->
-                                </div>
-
-                                <div class="flex gap-2 items-start">
-                                    <div class="flex-1 space-y-2">
-                                        <input type="text" id="inputNamaPetugas" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="Nama Petugas">
-                                        <input type="text" id="inputNoWAPetugas" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="No WhatsApp (contoh: 628123...)">
+                        <!-- Block 2: Dokumen -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> Dokumen & Laporan
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Link Surat Permohonan / Masuk (G-Drive)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fa-brands fa-google-drive text-gray-400"></i></div>
+                                        <input type="url" id="linkSuratMasuk" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none" placeholder="https://drive.google.com/...">
                                     </div>
-                                    <button type="button" onclick="tambahPetugas()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-300 h-full flex items-center justify-center min-h-[84px]">
-                                        <i class="fa-solid fa-plus mr-1"></i> Tambah
-                                    </button>
+                                    <p class="text-xs text-gray-500">Atau upload file fisik:</p>
+                                    <input type="file" id="fileSuratMasuk" accept=".pdf,.doc,.docx" class="w-full text-sm text-gray-500">
                                 </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Link Laporan Kegiatan (G-Drive)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fa-brands fa-google-drive text-gray-400"></i></div>
+                                        <input type="url" id="linkLaporan" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none" placeholder="https://drive.google.com/...">
+                                    </div>
+                                </div>
+                                <div class="space-y-2 md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700">Link Dokumentasi Foto/Video (G-Drive)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fa-regular fa-images text-gray-400"></i></div>
+                                        <input type="url" id="linkDokumentasi" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none" placeholder="https://drive.google.com/...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Block 3: Petugas -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> Petugas Pelaksana & Surat Tugas
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-kemkes-lightGrey/50 p-4 rounded-xl border border-gray-200">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Surat Tugas / Keterangan</label>
+                                    <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                                        <input type="url" id="linkSuratTugas" class="flex-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none text-sm" placeholder="Link G-Drive Surat Tugas...">
+                                        <span class="text-sm text-gray-500 font-medium">ATAU</span>
+                                        <input type="file" id="fileSuratTugas" accept=".pdf" class="flex-1 w-full text-sm text-gray-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Daftar Petugas</label>
+                                    <div id="petugasListContainer" class="space-y-2 mb-3">
+                                        <!-- Dynamic list of officers will appear here -->
+                                    </div>
+
+                                    <div class="flex gap-2 items-start relative">
+                                        <div class="flex-1 space-y-2 relative">
+                                            <!-- Fitur Autocomplete -->
+                                            <input type="text" id="inputNamaPetugas" autocomplete="off" oninput="window.showPetugasSuggestions(this.value)" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="Nama Petugas (Ketik untuk mencari dari database...)">
+                                            <ul id="petugasSuggestions" class="absolute z-10 w-full bg-white border border-gray-200 shadow-lg rounded-lg mt-1 hidden max-h-40 overflow-y-auto text-sm divide-y divide-gray-100"></ul>
+                                            
+                                            <input type="text" id="inputNoWAPetugas" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="No WhatsApp (contoh: 628123...)">
+                                        </div>
+                                        <button type="button" onclick="tambahPetugas()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-300 h-full flex items-center justify-center min-h-[84px]">
+                                            <i class="fa-solid fa-plus mr-1"></i> Tambah
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end gap-3 border-t">
+                            <button type="button" onclick="resetForm()" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors">Reset</button>
+                            <button type="submit" class="px-6 py-2.5 rounded-xl bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white font-medium shadow-md transition-colors flex items-center gap-2">
+                                <i class="fa-solid fa-save"></i> Simpan Data Kegiatan
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- SECTION: DASHBOARD -->
+                <section id="section-dashboard" class="animate-[fadeIn_0.3s_ease-in-out]">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-clipboard-list text-kemkes-turquoise"></i> Daftar Kegiatan Promkes
+                            </h2>
+                            <p class="text-gray-500 mt-1 text-sm">Kelola dan bagikan informasi kegiatan ke petugas.</p>
+                        </div>
+                        
+                        <!-- Toggle View & Search -->
+                        <div class="flex flex-col sm:flex-row items-center gap-3 mt-2 md:mt-0 w-full md:w-auto">
+                            <div class="relative w-full sm:w-64">
+                                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="searchInput" placeholder="Cari kegiatan, tanggal..." class="pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none w-full text-sm shadow-sm" onkeyup="filterActivities()">
                             </div>
                             
-                            <div class="bg-blue-50 text-blue-800 p-4 rounded-xl flex items-start gap-3 border border-blue-100">
-                                <i class="fa-brands fa-whatsapp text-xl mt-0.5 text-blue-600"></i>
-                                <div>
-                                    <p class="text-sm font-semibold">Info Forwarding WhatsApp</p>
-                                    <p class="text-xs mt-1">Setelah data disimpan, Anda bisa menggunakan tombol "Share WA" di Dashboard untuk meneruskan ringkasan kegiatan dan link surat tugas ke nomor WA yang didaftarkan atau memilih kontak manual.</p>
-                                </div>
+                            <div class="flex items-center gap-1 bg-gray-100 p-1 rounded-xl border border-gray-200 self-end sm:self-auto">
+                                <button onclick="window.setViewMode('card')" id="btnViewCard" class="px-4 py-2 rounded-lg bg-white shadow-sm text-kemkes-turquoise text-sm transition-all flex items-center gap-2 font-medium border border-gray-200/50">
+                                    <i class="fa-solid fa-table-cells-large"></i> <span class="hidden sm:inline">Grid</span>
+                                </button>
+                                <button onclick="window.setViewMode('list')" id="btnViewList" class="px-4 py-2 rounded-lg text-gray-500 hover:text-gray-700 text-sm transition-all flex items-center gap-2 font-medium">
+                                    <i class="fa-solid fa-list"></i> <span class="hidden sm:inline">List</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="pt-4 flex justify-end gap-3 border-t">
-                        <button type="button" onclick="resetForm()" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors">
-                            Reset
-                        </button>
-                        <button type="submit" class="px-6 py-2.5 rounded-xl bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white font-medium shadow-md shadow-kemkes-turquoise/30 transition-colors flex items-center gap-2">
-                            <i class="fa-solid fa-save"></i> Simpan Data Kegiatan
-                        </button>
+                    <div id="emptyState" class="hidden flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-dashed border-gray-300 text-center">
+                        <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4"><i class="fa-regular fa-folder-open text-3xl text-gray-400"></i></div>
+                        <h3 class="text-lg font-semibold text-gray-800">Belum ada kegiatan</h3>
+                        <p class="text-gray-500 mt-1 text-sm max-w-sm">Data kegiatan promosi kesehatan yang ditambahkan akan muncul di sini.</p>
+                        <button onclick="switchTab('form')" class="mt-4 px-6 py-2 bg-kemkes-turquoise text-white rounded-lg hover:bg-kemkes-darkTurquoise transition-colors text-sm font-medium">Tambah Kegiatan</button>
                     </div>
-                </form>
-            </section>
 
-            <!-- SECTION: DASHBOARD -->
-            <section id="section-dashboard" class="animate-[fadeIn_0.3s_ease-in-out]">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                    <div>
+                    <!-- Container for either Grid or Table -->
+                    <div id="activitiesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Content generated by JS -->
+                    </div>
+                </section>
+
+                <!-- SECTION: DATABASE PETUGAS -->
+                <section id="section-petugas" class="hidden animate-[fadeIn_0.3s_ease-in-out]">
+                    <div class="mb-8">
                         <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                            <i class="fa-solid fa-clipboard-list text-kemkes-turquoise"></i>
-                            Daftar Kegiatan Promkes
+                            <i class="fa-solid fa-users text-kemkes-turquoise"></i> Database Petugas Promkes
                         </h2>
-                        <p class="text-gray-500 mt-1 text-sm">Kelola dan bagikan informasi kegiatan ke petugas.</p>
+                        <p class="text-gray-500 mt-1 text-sm">Data petugas yang pernah ditugaskan tersimpan secara otomatis untuk fitur *autocomplete*.</p>
                     </div>
-                    
-                    <div class="relative">
-                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="searchInput" placeholder="Cari kegiatan..." class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none w-full md:w-64 text-sm" onkeyup="filterActivities()">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="w-full text-left text-sm text-gray-600">
+                            <thead class="bg-gray-50 text-gray-700 font-medium border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-12">No</th>
+                                    <th class="px-6 py-4">Nama Petugas</th>
+                                    <th class="px-6 py-4">Nomor WhatsApp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="petugasTableBody" class="divide-y divide-gray-100">
+                                <!-- Diisi oleh JS -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
+                </section>
 
-                <!-- Empty State (Hidden by default, shown via JS if no data) -->
-                <div id="emptyState" class="hidden flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-dashed border-gray-300 text-center">
-                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                        <i class="fa-regular fa-folder-open text-3xl text-gray-400"></i>
+                <!-- SECTION: ARSIP SURAT -->
+                <section id="section-arsip" class="hidden animate-[fadeIn_0.3s_ease-in-out]">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-file-contract text-kemkes-turquoise"></i> Arsip Dokumen & Surat
+                        </h2>
+                        <p class="text-gray-500 mt-1 text-sm">Rekapitulasi seluruh link dokumen dan surat dari semua kegiatan.</p>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-800">Belum ada kegiatan</h3>
-                    <p class="text-gray-500 mt-1 text-sm max-w-sm">Data kegiatan promosi kesehatan yang ditambahkan akan muncul di sini.</p>
-                    <button onclick="switchTab('form')" class="mt-4 px-6 py-2 bg-kemkes-turquoise text-white rounded-lg hover:bg-kemkes-darkTurquoise transition-colors text-sm font-medium">
-                        Tambah Kegiatan Pertama
-                    </button>
-                </div>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-gray-600 whitespace-nowrap">
+                                <thead class="bg-gray-50 text-gray-700 font-medium border-b border-gray-200">
+                                    <tr>
+                                        <th class="px-6 py-4">Tgl Kegiatan</th>
+                                        <th class="px-6 py-4">Nama Kegiatan</th>
+                                        <th class="px-6 py-4">Jenis Dokumen</th>
+                                        <th class="px-6 py-4 text-center">Tautan / Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="arsipTableBody" class="divide-y divide-gray-100">
+                                    <!-- Diisi oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
-                <!-- Activities Grid -->
-                <div id="activitiesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Cards will be generated here by JavaScript -->
-                </div>
-            </section>
-
-        </div>
-    </main>
+            </div>
+        </main>
     </div> <!-- End of app-container -->
 
-    <!-- Global Toast Notification -->
     <div id="toast" class="toast">Notifikasi</div>
 
     <script>
-        // Gunakan LocalStorage untuk prototype agar langsung berfungsi tanpa konfigurasi Firebase
         let currentUser = null;
         let activities = [];
         let currentFormPetugas = [];
+        let databasePetugas = [];
         let editingActivityId = null;
+        let currentViewMode = 'card'; // default view
 
-        // Inisialisasi Aplikasi (Mock Login)
         function initApp() {
-            // Simulasi user sudah terautentikasi secara lokal
             currentUser = { uid: 'local_user', displayName: 'Admin Promkes' };
         }
         initApp();
@@ -451,35 +415,35 @@
                 const storedData = localStorage.getItem('promkes_activities');
                 if (storedData) {
                     activities = JSON.parse(storedData);
-                    // Urutkan berdasarkan tanggal kegiatan paling baru
                     activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-                } else {
-                    activities = [];
                 }
                 
+                // Load Database Petugas
+                const storedPetugas = localStorage.getItem('promkes_petugas');
+                if (storedPetugas) {
+                    databasePetugas = JSON.parse(storedPetugas);
+                    databasePetugas.sort((a,b) => a.nama.localeCompare(b.nama));
+                }
+
                 if(!document.getElementById('section-dashboard').classList.contains('hidden')){
                     window.renderActivities(document.getElementById('searchInput').value);
                 }
             } catch (error) {
                 console.error("Gagal memuat data:", error);
-                window.showToast("Gagal memuat data dari memori lokal", true);
             }
         }
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('loginUsername').value;
-            
             if(user) {
                 const btn = this.querySelector('button[type="submit"]');
-                const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi...';
                 setTimeout(() => proceedToApp(user), 800);
             }
         });
 
         document.getElementById('btnGoogleLogin').addEventListener('click', function() {
-            const originalText = this.innerHTML;
             this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan Google...';
             setTimeout(() => {
                 currentUser = { uid: 'google_user', displayName: 'Pengguna Google' };
@@ -501,7 +465,7 @@
         }
 
         window.switchTab = function(tabId) {
-            const navItems = ['nav-dashboard', 'nav-form'];
+            const navItems = ['nav-dashboard', 'nav-form', 'nav-petugas', 'nav-arsip'];
             navItems.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
@@ -518,9 +482,14 @@
 
             document.getElementById('section-dashboard').classList.add('hidden');
             document.getElementById('section-form').classList.add('hidden');
+            document.getElementById('section-petugas').classList.add('hidden');
+            document.getElementById('section-arsip').classList.add('hidden');
+            
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
 
             if(tabId === 'dashboard') window.renderActivities();
+            if(tabId === 'petugas') window.renderDatabasePetugas();
+            if(tabId === 'arsip') window.renderArsipSurat();
         }
 
         const mobileMenu = document.getElementById('mobileMenu');
@@ -545,6 +514,58 @@
             toast.className = "toast show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
+
+        window.updateDatabasePetugas = function(petugasArray) {
+            let updated = false;
+            if(!petugasArray) return;
+            
+            petugasArray.forEach(p => {
+                const exists = databasePetugas.find(db => db.nama.toLowerCase() === p.nama.trim().toLowerCase());
+                if(exists) {
+                    if(p.wa && exists.wa !== p.wa) { exists.wa = p.wa; updated = true; }
+                } else {
+                    databasePetugas.push({nama: p.nama.trim(), wa: p.wa.trim()});
+                    updated = true;
+                }
+            });
+            
+            if(updated) {
+                databasePetugas.sort((a,b) => a.nama.localeCompare(b.nama));
+                localStorage.setItem('promkes_petugas', JSON.stringify(databasePetugas));
+            }
+        }
+
+        window.showPetugasSuggestions = function(val) {
+            const sugg = document.getElementById('petugasSuggestions');
+            sugg.innerHTML = '';
+            if(!val) { sugg.classList.add('hidden'); return; }
+            
+            const filtered = databasePetugas.filter(p => p.nama.toLowerCase().includes(val.toLowerCase()));
+            if(filtered.length === 0) { sugg.classList.add('hidden'); return; }
+            
+            filtered.forEach(p => {
+                const li = document.createElement('li');
+                li.className = "px-4 py-2.5 hover:bg-kemkes-lightGrey cursor-pointer text-gray-700 flex justify-between items-center transition-colors";
+                li.innerHTML = `<span class="font-medium">${p.nama}</span> <span class="text-xs text-gray-400 font-mono">${p.wa || '-'}</span>`;
+                li.onclick = () => window.selectPetugas(p.nama, p.wa);
+                sugg.appendChild(li);
+            });
+            sugg.classList.remove('hidden');
+        }
+
+        window.selectPetugas = function(nama, wa) {
+            document.getElementById('inputNamaPetugas').value = nama;
+            document.getElementById('inputNoWAPetugas').value = wa || '';
+            document.getElementById('petugasSuggestions').classList.add('hidden');
+        }
+
+        // Tutup kotak saran jika klik di luar
+        document.addEventListener('click', function(e) {
+            const sugg = document.getElementById('petugasSuggestions');
+            if(sugg && !e.target.closest('#inputNamaPetugas') && !e.target.closest('#petugasSuggestions')) {
+                sugg.classList.add('hidden');
+            }
+        });
 
         window.renderFormPetugasList = function() {
             const container = document.getElementById('petugasListContainer');
@@ -580,6 +601,7 @@
 
             currentFormPetugas.push({ id: 'ptg_' + Date.now(), nama: nama, wa: wa });
             namaInput.value = ''; waInput.value = '';
+            document.getElementById('petugasSuggestions').classList.add('hidden');
             window.renderFormPetugasList();
         }
 
@@ -596,7 +618,6 @@
 
         document.getElementById('activityForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
             if(currentFormPetugas.length === 0) {
                 if(!confirm("Anda belum menambahkan petugas. Yakin ingin menyimpan tanpa petugas?")) return;
             }
@@ -623,10 +644,13 @@
             };
 
             try {
-                if(!currentUser) throw new Error("Akses ditolak, belum login");
                 activities.push(newActivity);
                 activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-                saveToLocal(); // Simpan ke LocalStorage
+                saveToLocal();
+                
+                // Simpan ke database autocomplete
+                window.updateDatabasePetugas(currentFormPetugas);
+                
                 window.showToast("Kegiatan berhasil disimpan!");
                 window.resetForm();
                 window.switchTab('dashboard');
@@ -699,6 +723,22 @@
             }
         }
 
+        window.setViewMode = function(mode) {
+            currentViewMode = mode;
+            const btnCard = document.getElementById('btnViewCard');
+            const btnList = document.getElementById('btnViewList');
+            
+            if (mode === 'card') {
+                btnCard.className = "px-4 py-2 rounded-lg bg-white shadow-sm text-kemkes-turquoise text-sm transition-all flex items-center gap-2 font-medium border border-gray-200/50";
+                btnList.className = "px-4 py-2 rounded-lg text-gray-500 hover:text-gray-700 text-sm transition-all flex items-center gap-2 font-medium";
+            } else {
+                btnList.className = "px-4 py-2 rounded-lg bg-white shadow-sm text-kemkes-turquoise text-sm transition-all flex items-center gap-2 font-medium border border-gray-200/50";
+                btnCard.className = "px-4 py-2 rounded-lg text-gray-500 hover:text-gray-700 text-sm transition-all flex items-center gap-2 font-medium";
+            }
+            
+            window.renderActivities(document.getElementById('searchInput').value);
+        }
+
         window.renderActivities = function(filterText = "") {
             const container = document.getElementById('activitiesContainer');
             const emptyState = document.getElementById('emptyState');
@@ -706,84 +746,181 @@
             
             const filteredActivities = activities.filter(act => {
                 const searchStr = filterText.toLowerCase();
+                const formattedDate = window.formatDate(act.tanggal).toLowerCase(); // allows searching by readable dates
+                
                 return act.nama.toLowerCase().includes(searchStr) || 
-                       act.tempat.toLowerCase().includes(searchStr) || 
+                       act.tempat.toLowerCase().includes(searchStr) ||
+                       formattedDate.includes(searchStr) || 
                        (Array.isArray(act.petugas) && act.petugas.some(p => p.nama.toLowerCase().includes(searchStr) || (p.wa && p.wa.includes(searchStr))));
             });
 
             if (filteredActivities.length === 0) {
                 container.classList.add('hidden');
                 emptyState.classList.remove('hidden');
-                if(filterText !== "") {
-                    emptyState.querySelector('h3').textContent = "Tidak ada hasil pencarian";
-                    emptyState.querySelector('p').textContent = `Pencarian "${filterText}" tidak ditemukan.`;
-                    emptyState.querySelector('button').classList.add('hidden');
-                } else {
-                    emptyState.querySelector('h3').textContent = "Belum ada kegiatan";
-                    emptyState.querySelector('p').textContent = "Data kegiatan promosi kesehatan yang ditambahkan akan muncul di sini.";
-                    emptyState.querySelector('button').classList.remove('hidden');
-                }
                 return;
             }
 
             container.classList.remove('hidden');
             emptyState.classList.add('hidden');
 
-            filteredActivities.forEach(act => {
-                const isEditing = editingActivityId === act.id;
-                const card = document.createElement('div');
-                card.className = `bg-white rounded-2xl border ${isEditing ? 'border-kemkes-turquoise shadow-md ring-1 ring-kemkes-turquoise/30' : 'border-gray-100 shadow-sm hover:shadow-md'} transition-shadow p-5 flex flex-col relative overflow-hidden group`;
+            if (currentViewMode === 'list') {
+                container.className = "w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden";
+                const tableWrap = document.createElement('div');
+                tableWrap.className = "overflow-x-auto";
                 
-                const statusColor = act.statusSuratTugas === 'Tersedia' ? 'bg-kemkes-turquoise' : 'bg-amber-400';
+                const table = document.createElement('table');
+                table.className = "w-full text-left text-sm text-gray-600";
+                table.innerHTML = `
+                    <thead class="bg-gray-50 text-gray-700 font-medium border-b border-gray-200">
+                        <tr>
+                            <th class="px-4 py-4 w-40 whitespace-nowrap">Tgl. Acara</th>
+                            <th class="px-4 py-4 min-w-[200px]">Nama Kegiatan</th>
+                            <th class="px-4 py-4 hidden md:table-cell">Petugas Terdaftar</th>
+                            <th class="px-4 py-4 w-28 text-center">Surat Tugas</th>
+                            <th class="px-4 py-4 text-center w-32">Aksi</th>
+                        </tr>
+                    </thead>
+                `;
                 
-                card.innerHTML = `
-                    <div class="absolute left-0 top-0 bottom-0 w-1 ${statusColor}"></div>
-                    <div class="flex justify-between items-start mb-3 pl-2 gap-2">
-                        <div class="w-full">
-                            ${isEditing ? `<input type="text" id="edit_nama_${act.id}" class="edit-input font-bold text-lg mb-1" value="${act.nama}">` : `<h3 class="font-bold text-gray-800 text-lg leading-tight w-3/4 truncate">${act.nama}</h3>`}
-                        </div>
-                        ${!isEditing ? `<span class="text-[10px] uppercase font-bold px-2 py-1 rounded-full whitespace-nowrap ${act.statusSuratTugas === 'Tersedia' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">ST: ${act.statusSuratTugas}</span>` : ''}
-                    </div>
+                const tbody = document.createElement('tbody');
+                tbody.className = "divide-y divide-gray-100";
+                
+                filteredActivities.forEach(act => {
+                    const isEditing = editingActivityId === act.id;
+                    const tr = document.createElement('tr');
                     
-                    <div class="space-y-2 mb-4 pl-2 flex-grow">
-                        <div class="text-sm text-gray-600 flex items-center gap-2">
-                            <i class="fa-regular fa-calendar text-kemkes-grey w-4 text-center"></i>
-                            <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="date" id="edit_tanggal_${act.id}" class="edit-input text-sm" value="${act.tanggal}">` : `<span class="truncate">${window.formatDate(act.tanggal)}</span>`}</div>
+                    if (isEditing) {
+                        tr.innerHTML = `
+                        <td colspan="5" class="p-0 border-l-4 border-kemkes-turquoise bg-gray-50/80">
+                            <div class="p-5 flex flex-col gap-4">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex-1 space-y-1">
+                                        <label class="text-[10px] text-gray-500 uppercase font-bold">Nama Kegiatan</label>
+                                        <input type="text" id="edit_nama_${act.id}" class="edit-input font-bold text-lg w-full" value="${act.nama}">
+                                    </div>
+                                    <div class="md:w-48 space-y-1">
+                                        <label class="text-[10px] text-gray-500 uppercase font-bold">Tanggal</label>
+                                        <input type="date" id="edit_tanggal_${act.id}" class="edit-input text-sm w-full" value="${act.tanggal}">
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-1">
+                                    <label class="text-[10px] text-gray-500 uppercase font-bold">Tempat</label>
+                                    <input type="text" id="edit_tempat_${act.id}" class="edit-input text-sm w-full" value="${act.tempat}">
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                                    <p class="text-[10px] font-bold text-gray-500 mb-2 uppercase border-b pb-1">Petugas Pelaksana:</p>
+                                    ${window.formatPetugasList(act.petugas, true, act.id)}
+                                </div>
+
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                                    ${window.createLinkElement(act.suratMasuk, act.fileSuratMasukName, "Permohonan", "fa-solid fa-envelope-open-text", act.id, 'suratMasuk', true)}
+                                    ${window.createLinkElement(act.suratTugas, act.fileSuratTugasName, "Surat Tugas", "fa-solid fa-file-signature", act.id, 'suratTugas', true)}
+                                    ${window.createLinkElement(act.dokumentasi, "", "Dokumentasi", "fa-regular fa-images", act.id, 'dokumentasi', true)}
+                                    ${window.createLinkElement(act.laporan, "", "Laporan", "fa-solid fa-file-lines", act.id, 'laporan', true)}
+                                </div>
+
+                                <div class="flex justify-end gap-2 pt-2">
+                                    <button onclick="window.cancelEdit()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-xl text-xs font-semibold transition-colors">Batal</button>
+                                    <button onclick="window.saveEdit('${act.id}')" class="bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white px-5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-md"><i class="fa-solid fa-check mr-1"></i> Simpan Perubahan</button>
+                                </div>
+                            </div>
+                        </td>`;
+                    } else {
+                        const statusColor = act.statusSuratTugas === 'Tersedia' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700';
+                        tr.className = "hover:bg-gray-50 transition-colors group";
+                        tr.innerHTML = `
+                            <td class="px-4 py-3 whitespace-nowrap align-top pt-4">
+                                <span class="font-medium text-gray-800"><i class="fa-regular fa-calendar text-gray-400 mr-1"></i> ${window.formatDate(act.tanggal)}</span>
+                            </td>
+                            <td class="px-4 py-3 align-top pt-4">
+                                <p class="font-bold text-gray-800 text-base mb-1">${act.nama}</p>
+                                <p class="text-xs text-gray-500 flex items-center gap-1.5"><i class="fa-solid fa-location-dot"></i> ${act.tempat}</p>
+                            </td>
+                            <td class="px-4 py-3 hidden md:table-cell text-xs align-top pt-4">
+                                ${act.petugas && act.petugas.length > 0 ? 
+                                    '<ul class="list-disc pl-3 text-gray-600">' + act.petugas.map(p => `<li>${p.nama}</li>`).join('') + '</ul>' 
+                                    : '<span class="italic text-gray-400">Belum ada data</span>'}
+                            </td>
+                            <td class="px-4 py-3 text-center align-top pt-4">
+                                <span class="text-[10px] uppercase font-bold px-2.5 py-1 rounded-full ${statusColor}">${act.statusSuratTugas}</span>
+                            </td>
+                            <td class="px-4 py-3 text-center align-top pt-3">
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <button onclick="window.startEdit('${act.id}')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-kemkes-turquoise hover:text-white flex items-center justify-center transition-colors" title="Edit"><i class="fa-solid fa-pencil text-xs"></i></button>
+                                    <button onclick="window.deleteActivity('${act.id}')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-red-500 hover:text-white flex items-center justify-center transition-colors" title="Hapus"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                                    <button onclick="window.shareToWA('${act.id}')" class="w-8 h-8 rounded-full bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-colors shadow-sm" title="Share WA"><i class="fa-brands fa-whatsapp text-lg"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    }
+                    tbody.appendChild(tr);
+                });
+                
+                table.appendChild(tbody);
+                tableWrap.appendChild(table);
+                container.appendChild(tableWrap);
+
+            } else {
+                // Card View Mode
+                container.className = "grid grid-cols-1 lg:grid-cols-2 gap-6 w-full";
+                filteredActivities.forEach(act => {
+                    const isEditing = editingActivityId === act.id;
+                    const card = document.createElement('div');
+                    card.className = `bg-white rounded-2xl border ${isEditing ? 'border-kemkes-turquoise shadow-md ring-1 ring-kemkes-turquoise/30' : 'border-gray-100 shadow-sm hover:shadow-md'} transition-shadow p-5 flex flex-col relative overflow-hidden group`;
+                    
+                    const statusColor = act.statusSuratTugas === 'Tersedia' ? 'bg-kemkes-turquoise' : 'bg-amber-400';
+                    
+                    card.innerHTML = `
+                        <div class="absolute left-0 top-0 bottom-0 w-1 ${statusColor}"></div>
+                        <div class="flex justify-between items-start mb-3 pl-2 gap-2">
+                            <div class="w-full">
+                                ${isEditing ? `<input type="text" id="edit_nama_${act.id}" class="edit-input font-bold text-lg mb-1" value="${act.nama}">` : `<h3 class="font-bold text-gray-800 text-lg leading-tight w-full pr-1">${act.nama}</h3>`}
+                            </div>
+                            ${!isEditing ? `<span class="text-[10px] uppercase font-bold px-2 py-1 rounded-full whitespace-nowrap ${act.statusSuratTugas === 'Tersedia' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">ST: ${act.statusSuratTugas}</span>` : ''}
                         </div>
-                        <div class="text-sm text-gray-600 flex items-center gap-2">
-                            <i class="fa-solid fa-location-dot text-kemkes-grey w-4 text-center"></i>
-                            <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="text" id="edit_tempat_${act.id}" class="edit-input text-sm" value="${act.tempat}">` : `<span class="truncate">${act.tempat}</span>`}</div>
-                        </div>
-                        <div class="pt-2">
-                            <p class="text-[10px] font-semibold text-gray-500 mb-1 uppercase tracking-wider">Petugas Pelaksana:</p>
-                            <div class="text-sm text-gray-700 bg-gray-50 p-2 rounded-lg border border-gray-100 max-h-24 overflow-y-auto w-full">
-                                ${window.formatPetugasList(act.petugas, isEditing, act.id)}
+                        
+                        <div class="space-y-2 mb-4 pl-2 flex-grow">
+                            <div class="text-sm text-gray-600 flex items-center gap-2">
+                                <i class="fa-regular fa-calendar text-kemkes-grey w-4 text-center"></i>
+                                <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="date" id="edit_tanggal_${act.id}" class="edit-input text-sm" value="${act.tanggal}">` : `<span class="truncate font-medium">${window.formatDate(act.tanggal)}</span>`}</div>
+                            </div>
+                            <div class="text-sm text-gray-600 flex items-center gap-2">
+                                <i class="fa-solid fa-location-dot text-kemkes-grey w-4 text-center"></i>
+                                <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="text" id="edit_tempat_${act.id}" class="edit-input text-sm" value="${act.tempat}">` : `<span class="truncate">${act.tempat}</span>`}</div>
+                            </div>
+                            <div class="pt-2">
+                                <p class="text-[10px] font-semibold text-gray-500 mb-1 uppercase tracking-wider">Petugas Pelaksana:</p>
+                                <div class="text-sm text-gray-700 bg-gray-50 p-2 rounded-lg border border-gray-100 max-h-24 overflow-y-auto w-full">
+                                    ${window.formatPetugasList(act.petugas, isEditing, act.id)}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="grid grid-cols-2 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100 ml-2">
-                        ${window.createLinkElement(act.suratMasuk, act.fileSuratMasukName, "Permohonan", "fa-solid fa-envelope-open-text", act.id, 'suratMasuk', isEditing)}
-                        ${window.createLinkElement(act.suratTugas, act.fileSuratTugasName, "Surat Tugas", "fa-solid fa-file-signature", act.id, 'suratTugas', isEditing)}
-                        ${window.createLinkElement(act.dokumentasi, "", "Dokumentasi", "fa-regular fa-images", act.id, 'dokumentasi', isEditing)}
-                        ${window.createLinkElement(act.laporan, "", "Laporan", "fa-solid fa-file-lines", act.id, 'laporan', isEditing)}
-                    </div>
-                    
-                    <div class="mt-auto pt-3 border-t border-gray-100 pl-2 flex justify-between items-center h-10">
-                        <div class="flex items-center gap-1">
-                            ${isEditing ? `
-                                <button onclick="window.saveEdit('${act.id}')" class="flex items-center gap-1 bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"><i class="fa-solid fa-check"></i> Simpan</button>
-                                <button onclick="window.cancelEdit()" class="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">Batal</button>
-                            ` : `
-                                <button onclick="window.startEdit('${act.id}')" class="text-xs text-gray-500 hover:text-kemkes-turquoise font-medium transition-colors p-1" title="Edit Kegiatan"><i class="fa-solid fa-pencil"></i> Edit</button>
-                                <button onclick="window.deleteActivity('${act.id}')" class="text-xs text-gray-500 hover:text-red-500 font-medium transition-colors p-1 ml-1" title="Hapus Kegiatan"><i class="fa-solid fa-trash-can"></i></button>
-                            `}
+                        <div class="grid grid-cols-2 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100 ml-2">
+                            ${window.createLinkElement(act.suratMasuk, act.fileSuratMasukName, "Permohonan", "fa-solid fa-envelope-open-text", act.id, 'suratMasuk', isEditing)}
+                            ${window.createLinkElement(act.suratTugas, act.fileSuratTugasName, "Surat Tugas", "fa-solid fa-file-signature", act.id, 'suratTugas', isEditing)}
+                            ${window.createLinkElement(act.dokumentasi, "", "Dokumentasi", "fa-regular fa-images", act.id, 'dokumentasi', isEditing)}
+                            ${window.createLinkElement(act.laporan, "", "Laporan", "fa-solid fa-file-lines", act.id, 'laporan', isEditing)}
                         </div>
-                        ${!isEditing ? `<button onclick="window.shareToWA('${act.id}')" class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm ml-auto"><i class="fa-brands fa-whatsapp text-lg"></i> <span class="hidden sm:inline">Share Info</span></button>` : ''}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+                        
+                        <div class="mt-auto pt-3 border-t border-gray-100 pl-2 flex justify-between items-center h-10">
+                            <div class="flex items-center gap-1">
+                                ${isEditing ? `
+                                    <button onclick="window.saveEdit('${act.id}')" class="flex items-center gap-1 bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"><i class="fa-solid fa-check"></i> Simpan</button>
+                                    <button onclick="window.cancelEdit()" class="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">Batal</button>
+                                ` : `
+                                    <button onclick="window.startEdit('${act.id}')" class="text-xs text-gray-500 hover:text-kemkes-turquoise font-medium transition-colors p-1" title="Edit Kegiatan"><i class="fa-solid fa-pencil"></i> Edit</button>
+                                    <button onclick="window.deleteActivity('${act.id}')" class="text-xs text-gray-500 hover:text-red-500 font-medium transition-colors p-1 ml-1" title="Hapus Kegiatan"><i class="fa-solid fa-trash-can"></i></button>
+                                `}
+                            </div>
+                            ${!isEditing ? `<button onclick="window.shareToWA('${act.id}')" class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm ml-auto"><i class="fa-brands fa-whatsapp text-lg"></i> <span class="hidden sm:inline">Share Info</span></button>` : ''}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
         }
 
         window.filterActivities = function() { window.renderActivities(document.getElementById('searchInput').value); }
@@ -816,9 +953,10 @@
                 };
 
                 try {
-                    if(!currentUser) return window.showToast("Belum login", true);
                     activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-                    saveToLocal(); // Simpan perubahan
+                    saveToLocal();
+                    window.updateDatabasePetugas(newPetugasArray);
+                    
                     editingActivityId = null;
                     window.renderActivities();
                     window.showToast("Data kegiatan diperbarui!");
@@ -831,16 +969,10 @@
 
         window.deleteActivity = function(id) {
             if (confirm("Apakah Anda yakin ingin menghapus kegiatan ini?")) {
-                try {
-                    if(!currentUser) return window.showToast("Belum login", true);
-                    activities = activities.filter(a => a.id !== id);
-                    saveToLocal(); // Simpan penghapusan
-                    window.renderActivities();
-                    window.showToast("Kegiatan berhasil dihapus.");
-                } catch (error) {
-                    console.error(error);
-                    window.showToast("Gagal menghapus data", true);
-                }
+                activities = activities.filter(a => a.id !== id);
+                saveToLocal();
+                window.renderActivities();
+                window.showToast("Kegiatan berhasil dihapus.");
             }
         }
 
@@ -848,22 +980,34 @@
             const act = activities.find(a => a.id === id);
             if (!act) return;
 
-            let message = `*INFO KEGIATAN PROMKES RS KEMENKES SURABAYA*\n\n*Kegiatan:* ${act.nama}\n*Tanggal:* ${window.formatDate(act.tanggal)}\n*Tempat:* ${act.tempat}\n\n*Petugas Ditugaskan:*\n`;
+            let message = `*📢 INFORMASI PENUGASAN KEGIATAN PROMKES*\n*RS KEMENKES SURABAYA*\n\n`;
+            message += `Yth. Bapak/Ibu Petugas Terlampir,\nBerikut adalah detail penugasan kegiatan promosi kesehatan:\n\n`;
             
+            message += `📌 *Nama Agenda:* ${act.nama}\n`;
+            message += `📅 *Tanggal:* ${window.formatDate(act.tanggal)}\n`;
+            message += `📍 *Lokasi:* ${act.tempat}\n\n`;
+            
+            message += `*👥 Daftar Petugas Ditugaskan:*\n`;
             if (Array.isArray(act.petugas) && act.petugas.length > 0) {
-                act.petugas.forEach(p => { message += `- ${p.nama} ${p.wa ? `(${p.wa})` : ''}\n`; });
+                act.petugas.forEach((p, index) => { message += `${index + 1}. ${p.nama}\n`; });
             } else { message += `- Belum ada data petugas\n`; }
             message += `\n`;
 
-            if (act.suratTugas || act.fileSuratTugasName) {
-                message += `*Surat Tugas:*\n${act.suratTugas ? act.suratTugas : `(File Fisik: ${act.fileSuratTugasName})`}\n\n`;
-            } else { message += `*Surat Tugas:* Sedang diproses / Belum diupload.\n\n`; }
+            message += `*🔗 LINK DOKUMEN:*\n`;
+            if (act.suratTugas) {
+                message += `📄 *Surat Tugas:* \n${act.suratTugas}\n\n`;
+            } else if (act.fileSuratTugasName) {
+                message += `📄 *Surat Tugas:* (Bentuk file fisik: ${act.fileSuratTugasName})\n\n`;
+            } else {
+                message += `📄 *Surat Tugas:* Sedang diproses / Belum diupload.\n\n`;
+            }
             
-            if (act.dokumentasi) message += `*Folder Dokumentasi:*\n${act.dokumentasi}\n\n`;
+            if (act.dokumentasi) message += `📸 *Folder Dokumentasi (Upload di sini):*\n${act.dokumentasi}\n\n`;
 
-            message += `Mohon kehadirannya tepat waktu. Terima kasih. \n_- Tim Promkes RS Kemenkes Surabaya_`;
+            message += `Mohon kehadirannya tepat waktu. \nTerima kasih atas kerja samanya.\n\n_- Tim Promkes RS Kemenkes Surabaya_`;
 
             const encodedMessage = encodeURIComponent(message);
+            
             let targetWA = '';
             if (Array.isArray(act.petugas)) {
                  const firstWithWA = act.petugas.find(p => p.wa && p.wa.trim() !== '');
@@ -874,7 +1018,61 @@
             else window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
         }
 
-        // Setup dasar awal animasi
+        window.renderDatabasePetugas = function() {
+            const tbody = document.getElementById('petugasTableBody');
+            tbody.innerHTML = '';
+            
+            if(databasePetugas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-gray-400 italic">Belum ada data petugas. Tambahkan melalui form kegiatan.</td></tr>`;
+                return;
+            }
+
+            databasePetugas.forEach((p, index) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4">${index + 1}</td>
+                        <td class="px-6 py-4 font-medium text-gray-800">${p.nama}</td>
+                        <td class="px-6 py-4">
+                            ${p.wa ? `<a href="https://wa.me/${p.wa.replace(/[^0-9]/g, '')}" target="_blank" class="text-green-600 hover:text-green-700 flex items-center gap-1.5 w-fit"><i class="fa-brands fa-whatsapp text-lg"></i> ${p.wa}</a>` : '<span class="text-gray-400 italic">-</span>'}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        window.renderArsipSurat = function() {
+            const tbody = document.getElementById('arsipTableBody');
+            tbody.innerHTML = '';
+            
+            let hasFiles = false;
+
+            activities.forEach(act => {
+                const addRow = (jenis, url, fileName, icon, color) => {
+                    hasFiles = true;
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4">${window.formatDate(act.tanggal)}</td>
+                            <td class="px-6 py-4 font-medium text-gray-800 max-w-[200px] truncate" title="${act.nama}">${act.nama}</td>
+                            <td class="px-6 py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold ${color}"><i class="${icon} mr-1"></i> ${jenis}</span></td>
+                            <td class="px-6 py-4 text-center">
+                                ${url ? `<a href="${url}" target="_blank" class="px-4 py-1.5 bg-gray-100 hover:bg-kemkes-turquoise hover:text-white text-gray-700 rounded-lg text-xs font-medium transition-colors">Buka Tautan</a>` : 
+                                 (fileName ? `<span class="px-4 py-1.5 bg-gray-100 text-gray-500 rounded-lg text-xs font-medium cursor-help" title="${fileName}"><i class="fa-solid fa-file"></i> Berkas Fisik</span>` : '-')}
+                            </td>
+                        </tr>
+                    `;
+                };
+
+                if (act.suratMasuk || act.fileSuratMasukName) addRow("Permohonan", act.suratMasuk, act.fileSuratMasukName, "fa-solid fa-envelope", "bg-blue-100 text-blue-700");
+                if (act.suratTugas || act.fileSuratTugasName) addRow("Surat Tugas", act.suratTugas, act.fileSuratTugasName, "fa-solid fa-file-signature", "bg-purple-100 text-purple-700");
+                if (act.laporan) addRow("Laporan", act.laporan, "", "fa-solid fa-file-lines", "bg-green-100 text-green-700");
+                if (act.dokumentasi) addRow("Dokumentasi", act.dokumentasi, "", "fa-regular fa-images", "bg-orange-100 text-orange-700");
+            });
+
+            if(!hasFiles) {
+                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400 italic">Belum ada dokumen yang diunggah pada kegiatan apa pun.</td></tr>`;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const style = document.createElement('style');
             style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`;
