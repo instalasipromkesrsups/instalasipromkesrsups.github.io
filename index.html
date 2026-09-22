@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Promosi Kesehatan - RS Kemenkes Surabaya</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter as a clean, modern fallback for VAG Rounded/Segoe UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kemkes: {
+                            turquoise: '#00A89D', // Medium Turquoise
+                            darkTurquoise: '#00837B', // Darker shade for hover states
+                            greenYellow: '#C2D500', // Green Yellow
+                            grey: '#808285', // Grey for neutrality
+                            lightGrey: '#F3F4F6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Segoe UI', 'sans-serif'], // Emulating Kemenkes secondary font
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            /* Hide scrollbar for a cleaner look but keep functionality */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Custom styling for file inputs */
+        input[type="file"]::file-selector-button {
+            border: none;
+            background: #e5e7eb;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #374151;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+            margin-right: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background: #d1d5db;
+        }
+
+        /* Glassmorphism effect for the header */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #00A89D;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Styling for edit mode inputs to blend better */
+        .edit-input {
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px 6px;
+            width: 100%;
+            font-size: inherit;
+            color: inherit;
+            background-color: #ffffff;
+        }
+        .edit-input:focus {
+            outline: none;
+            border-color: #00A89D;
+            box-shadow: 0 0 0 1px #00A89D;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased flex h-screen overflow-hidden relative">
+
+    <section id="login-section" class="absolute inset-0 z-50 flex flex-col md:flex-row h-screen w-full bg-white transition-opacity duration-500">
+        <!-- Panel Kiri: Foto Kegiatan & Branding -->
+        <div class="hidden md:flex flex-1 relative overflow-hidden bg-gray-100">
+            <!-- Background Image dengan efek pencerahan -->
+            <img src="DIG06230.JPG" alt="Kegiatan Promkes" class="absolute inset-0 w-full h-full object-cover filter brightness-110 contrast-105">
+            
+            <!-- Overlay Gradient agar teks/logo tetap terbaca jika ditaruh di atasnya -->
+            <div class="absolute inset-0 bg-gradient-to-t from-kemkes-darkTurquoise/60 to-transparent"></div>
+            
+            <!-- Logo overlay di atas foto -->
+            <div class="relative z-10 p-12 flex flex-col justify-end w-full h-full pb-16">
+                 <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl inline-block max-w-sm shadow-2xl animate-[fadeIn_1s_ease-in-out]">
+                    <img src="IMG-20260719-WA0017.jpg" alt="Promkes RS Kemenkes Surabaya" class="w-full object-contain mb-4">
+                    <p class="text-sm text-gray-700 font-medium border-l-4 border-kemkes-turquoise pl-3">Portal Informasi & Manajemen Data<br>Kegiatan Promosi Kesehatan.</p>
+                 </div>
+            </div>
+        </div>
+        
+        <!-- Panel Kanan: Form Login -->
+        <div class="flex-1 flex items-center justify-center p-8 bg-white shadow-[-20px_0_40px_-15px_rgba(0,0,0,0.2)] z-10 relative">
+            <div class="w-full max-w-sm space-y-8 animate-[fadeIn_0.5s_ease-in-out]">
+                <div class="text-center md:hidden mb-6 flex justify-center">
+                    <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-48 object-contain drop-shadow-md">
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 text-center md:text-left">Selamat Datang</h2>
+                    <p class="text-gray-500 mt-2 text-center md:text-left text-sm leading-relaxed">Sistem Manajemen Promosi Kesehatan<br>RS Kemenkes Surabaya.</p>
+                </div>
+                <form id="loginForm" class="space-y-6 mt-8">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Username / NIP</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-user text-gray-400"></i>
+                            </div>
+                            <input type="text" id="loginUsername" required class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none transition-shadow bg-gray-50 focus:bg-white text-sm" placeholder="Masukkan username">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="loginPassword" class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise outline-none transition-shadow bg-gray-50 focus:bg-white text-sm" placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-3 px-4 bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white font-semibold rounded-xl shadow-lg shadow-kemkes-turquoise/30 transition-all transform hover:-translate-y-0.5 text-sm">
+                        Masuk <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+                    </button>
+                    
+                    <div class="relative flex items-center py-2">
+                        <div class="flex-grow border-t border-gray-200"></div>
+                        <span class="flex-shrink-0 mx-4 text-gray-400 text-xs font-medium">ATAU</span>
+                        <div class="flex-grow border-t border-gray-200"></div>
+                    </div>
+                    
+                    <button type="button" id="btnGoogleLogin" class="w-full py-3 px-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 text-sm flex items-center justify-center gap-3">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
+                        Login dengan Google
+                    </button>
+                </form>
+                <p class="text-xs text-center text-gray-400 mt-8">© 2026 RS Kemenkes Surabaya.</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="app-container" class="hidden w-full h-full flex flex-row">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-xl h-full flex flex-col hidden md:flex flex-shrink-0 z-20">
+        <div class="p-6 border-b border-gray-100 flex items-center justify-center flex-col gap-3">
+            <img src="IMG-20260719-WA0017.jpg" alt="Logo Promkes" class="w-40 h-auto object-contain">
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl transition-all shadow-md shadow-kemkes-turquoise/20 font-medium">
+                <i class="fa-solid fa-chart-pie w-5"></i>
+                Dashboard Kegiatan
+            </button>
+            <button onclick="switchTab('form')" id="nav-form" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium">
+                <i class="fa-solid fa-plus-circle w-5"></i>
+                Input Kegiatan Baru
+            </button>
+            <hr class="my-4 border-gray-100">
+            <button class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium opacity-50 cursor-not-allowed" title="Fitur dalam pengembangan">
+                <i class="fa-solid fa-users w-5"></i>
+                Database Petugas
+            </button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-kemkes-turquoise rounded-xl transition-all font-medium opacity-50 cursor-not-allowed" title="Fitur dalam pengembangan">
+                <i class="fa-solid fa-file-contract w-5"></i>
+                Arsip Surat
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center gap-3 px-4 py-2">
+                <div class="w-8 h-8 rounded-full bg-kemkes-turquoise text-white flex items-center justify-center font-bold text-sm">
+                    A
+                </div>
+                <div class="text-sm">
+                    <p class="font-semibold text-gray-800">Admin Promkes</p>
+                    <p class="text-xs text-gray-500">Unit Layanan Terpadu</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-gray-50/50">
+        
+        <!-- Mobile Header -->
+        <header class="md:hidden glass-header flex items-center justify-between p-4 z-20 shadow-sm">
+            <div class="flex items-center gap-2">
+                <img src="IMG-20260719-WA0017.jpg" alt="Logo" class="w-8 h-8 object-cover rounded bg-white">
+                <h1 class="text-sm font-bold text-gray-800 truncate">RS Kemenkes Surabaya</h1>
+            </div>
+            <button id="mobileMenuBtn" class="text-gray-600 hover:text-kemkes-turquoise p-2">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenu" class="fixed inset-0 bg-gray-900/50 z-40 hidden backdrop-blur-sm">
+            <div class="absolute right-0 top-0 bottom-0 w-64 bg-white shadow-2xl flex flex-col transform transition-transform translate-x-full" id="mobileMenuPanel">
+                <div class="p-4 flex justify-end border-b border-gray-100">
+                    <button id="closeMobileMenuBtn" class="text-gray-500 hover:text-red-500 p-2">
+                        <i class="fa-solid fa-times text-xl"></i>
+                    </button>
+                </div>
+                <nav class="p-4 space-y-2">
+                    <button onclick="switchTab('dashboard'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 bg-kemkes-turquoise text-white rounded-xl">
+                        <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+                    </button>
+                    <button onclick="switchTab('form'); closeMobileMenu()" class="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl">
+                        <i class="fa-solid fa-plus-circle w-5"></i> Input Kegiatan
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto">
+            
+            <!-- SECTION: INPUT FORM -->
+            <section id="section-form" class="hidden animate-[fadeIn_0.3s_ease-in-out]">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square text-kemkes-turquoise"></i>
+                        Form Data Kegiatan Promosi Kesehatan
+                    </h2>
+                    <p class="text-gray-500 mt-1">Masukkan detail kegiatan promkes, surat pendukung, dan petugas yang ditugaskan.</p>
+                </div>
+
+                <form id="activityForm" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-8">
+                    
+                    <!-- Block 1: Informasi Dasar -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                            Informasi Kegiatan
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Nama Kegiatan <span class="text-red-500">*</span></label>
+                                <input type="text" id="namaKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="Contoh: Penyuluhan Gizi Seimbang">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Tanggal Kegiatan <span class="text-red-500">*</span></label>
+                                <input type="date" id="tanggalKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none">
+                            </div>
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Tempat Kegiatan <span class="text-red-500">*</span></label>
+                                <input type="text" id="tempatKegiatan" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="Contoh: Ruang Tunggu Poliklinik Lt. 1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Block 2: Dokumen & Tautan -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                            Dokumen & Laporan
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Link Surat Permohonan / Masuk (G-Drive)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-brands fa-google-drive text-gray-400"></i>
+                                    </div>
+                                    <input type="url" id="linkSuratMasuk" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
+                                </div>
+                                <p class="text-xs text-gray-500">Atau upload file fisik (jika link kosong):</p>
+                                <input type="file" id="fileSuratMasuk" accept=".pdf,.doc,.docx" class="w-full text-sm text-gray-500">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Link Laporan Kegiatan (G-Drive)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-brands fa-google-drive text-gray-400"></i>
+                                    </div>
+                                    <input type="url" id="linkLaporan" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Link Dokumentasi Foto/Video (G-Drive)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-images text-gray-400"></i>
+                                    </div>
+                                    <input type="url" id="linkDokumentasi" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise transition-shadow outline-none" placeholder="https://drive.google.com/...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Block 3: Petugas & Surat Tugas -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center gap-2">
+                            <span class="bg-kemkes-greenYellow/20 text-kemkes-darkTurquoise w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                            Petugas Pelaksana & Surat Tugas
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-kemkes-lightGrey/50 p-4 rounded-xl border border-gray-200">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Surat Tugas / Keterangan (Opsional, bisa diupdate nanti)</label>
+                                <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                                    <input type="url" id="linkSuratTugas" class="flex-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="Link G-Drive Surat Tugas...">
+                                    <span class="text-sm text-gray-500 font-medium">ATAU</span>
+                                    <input type="file" id="fileSuratTugas" accept=".pdf" class="flex-1 w-full text-sm text-gray-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Daftar Petugas</label>
+                                <p class="text-xs text-gray-500 mb-3">Tambahkan petugas satu per satu beserta nomor WhatsApp (opsional).</p>
+                                
+                                <div id="petugasListContainer" class="space-y-2 mb-3">
+                                    <!-- Dynamic list of officers will appear here -->
+                                </div>
+
+                                <div class="flex gap-2 items-start">
+                                    <div class="flex-1 space-y-2">
+                                        <input type="text" id="inputNamaPetugas" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="Nama Petugas">
+                                        <input type="text" id="inputNoWAPetugas" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise focus:border-kemkes-turquoise text-sm" placeholder="No WhatsApp (contoh: 628123...)">
+                                    </div>
+                                    <button type="button" onclick="tambahPetugas()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-300 h-full flex items-center justify-center min-h-[84px]">
+                                        <i class="fa-solid fa-plus mr-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-blue-50 text-blue-800 p-4 rounded-xl flex items-start gap-3 border border-blue-100">
+                                <i class="fa-brands fa-whatsapp text-xl mt-0.5 text-blue-600"></i>
+                                <div>
+                                    <p class="text-sm font-semibold">Info Forwarding WhatsApp</p>
+                                    <p class="text-xs mt-1">Setelah data disimpan, Anda bisa menggunakan tombol "Share WA" di Dashboard untuk meneruskan ringkasan kegiatan dan link surat tugas ke nomor WA yang didaftarkan atau memilih kontak manual.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end gap-3 border-t">
+                        <button type="button" onclick="resetForm()" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors">
+                            Reset
+                        </button>
+                        <button type="submit" class="px-6 py-2.5 rounded-xl bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white font-medium shadow-md shadow-kemkes-turquoise/30 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-save"></i> Simpan Data Kegiatan
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- SECTION: DASHBOARD -->
+            <section id="section-dashboard" class="animate-[fadeIn_0.3s_ease-in-out]">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-list text-kemkes-turquoise"></i>
+                            Daftar Kegiatan Promkes
+                        </h2>
+                        <p class="text-gray-500 mt-1 text-sm">Kelola dan bagikan informasi kegiatan ke petugas.</p>
+                    </div>
+                    
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" placeholder="Cari kegiatan..." class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-kemkes-turquoise outline-none w-full md:w-64 text-sm" onkeyup="filterActivities()">
+                    </div>
+                </div>
+
+                <!-- Empty State (Hidden by default, shown via JS if no data) -->
+                <div id="emptyState" class="hidden flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-dashed border-gray-300 text-center">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-regular fa-folder-open text-3xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Belum ada kegiatan</h3>
+                    <p class="text-gray-500 mt-1 text-sm max-w-sm">Data kegiatan promosi kesehatan yang ditambahkan akan muncul di sini.</p>
+                    <button onclick="switchTab('form')" class="mt-4 px-6 py-2 bg-kemkes-turquoise text-white rounded-lg hover:bg-kemkes-darkTurquoise transition-colors text-sm font-medium">
+                        Tambah Kegiatan Pertama
+                    </button>
+                </div>
+
+                <!-- Activities Grid -->
+                <div id="activitiesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Cards will be generated here by JavaScript -->
+                </div>
+            </section>
+
+        </div>
+    </main>
+    </div> <!-- End of app-container -->
+
+    <!-- Global Toast Notification -->
+    <div id="toast" class="toast">Notifikasi</div>
+
+    <script>
+        // Gunakan LocalStorage untuk prototype agar langsung berfungsi tanpa konfigurasi Firebase
+        let currentUser = null;
+        let activities = [];
+        let currentFormPetugas = [];
+        let editingActivityId = null;
+
+        // Inisialisasi Aplikasi (Mock Login)
+        function initApp() {
+            // Simulasi user sudah terautentikasi secara lokal
+            currentUser = { uid: 'local_user', displayName: 'Admin Promkes' };
+        }
+        initApp();
+
+        function saveToLocal() {
+            localStorage.setItem('promkes_activities', JSON.stringify(activities));
+        }
+
+        function loadData() {
+            if (!currentUser) return;
+            try {
+                const storedData = localStorage.getItem('promkes_activities');
+                if (storedData) {
+                    activities = JSON.parse(storedData);
+                    // Urutkan berdasarkan tanggal kegiatan paling baru
+                    activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                } else {
+                    activities = [];
+                }
+                
+                if(!document.getElementById('section-dashboard').classList.contains('hidden')){
+                    window.renderActivities(document.getElementById('searchInput').value);
+                }
+            } catch (error) {
+                console.error("Gagal memuat data:", error);
+                window.showToast("Gagal memuat data dari memori lokal", true);
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('loginUsername').value;
+            
+            if(user) {
+                const btn = this.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi...';
+                setTimeout(() => proceedToApp(user), 800);
+            }
+        });
+
+        document.getElementById('btnGoogleLogin').addEventListener('click', function() {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan Google...';
+            setTimeout(() => {
+                currentUser = { uid: 'google_user', displayName: 'Pengguna Google' };
+                proceedToApp(currentUser.displayName);
+            }, 1000);
+        });
+
+        function proceedToApp(userName) {
+            const loginSection = document.getElementById('login-section');
+            loginSection.style.opacity = '0';
+            loadData(); 
+            
+            setTimeout(() => {
+                loginSection.classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                window.showToast(`Selamat datang, ${userName}!`);
+                window.renderActivities(); 
+            }, 500);
+        }
+
+        window.switchTab = function(tabId) {
+            const navItems = ['nav-dashboard', 'nav-form'];
+            navItems.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.classList.remove('bg-kemkes-turquoise', 'text-white', 'shadow-md', 'shadow-kemkes-turquoise/20');
+                    el.classList.add('text-gray-600', 'hover:bg-gray-50', 'hover:text-kemkes-turquoise');
+                }
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if(activeNav) {
+                activeNav.classList.add('bg-kemkes-turquoise', 'text-white', 'shadow-md', 'shadow-kemkes-turquoise/20');
+                activeNav.classList.remove('text-gray-600', 'hover:bg-gray-50', 'hover:text-kemkes-turquoise');
+            }
+
+            document.getElementById('section-dashboard').classList.add('hidden');
+            document.getElementById('section-form').classList.add('hidden');
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+
+            if(tabId === 'dashboard') window.renderActivities();
+        }
+
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuPanel = document.getElementById('mobileMenuPanel');
+        
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => mobileMenuPanel.classList.remove('translate-x-full'), 10);
+        });
+
+        window.closeMobileMenu = function() {
+            mobileMenuPanel.classList.add('translate-x-full');
+            setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+        }
+        document.getElementById('closeMobileMenuBtn').addEventListener('click', window.closeMobileMenu);
+        mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) window.closeMobileMenu(); });
+
+        window.showToast = function(message, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.style.backgroundColor = isError ? "#EF4444" : "#00A89D";
+            toast.className = "toast show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        window.renderFormPetugasList = function() {
+            const container = document.getElementById('petugasListContainer');
+            container.innerHTML = '';
+            
+            if(currentFormPetugas.length === 0) {
+                 container.innerHTML = '<div class="text-sm text-gray-400 italic px-3 py-2 bg-gray-50 rounded border border-dashed border-gray-200">Belum ada petugas ditambahkan.</div>';
+                 return;
+            }
+            currentFormPetugas.forEach((p, index) => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 text-sm";
+                item.innerHTML = `
+                    <div>
+                        <span class="font-medium text-gray-700">${p.nama}</span>
+                        ${p.wa ? `<span class="text-gray-500 text-xs ml-2"><i class="fa-brands fa-whatsapp text-green-500"></i> ${p.wa}</span>` : ''}
+                    </div>
+                    <button type="button" onclick="window.hapusFormPetugas(${index})" class="text-red-400 hover:text-red-600 p-1">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        window.tambahPetugas = function() {
+            const namaInput = document.getElementById('inputNamaPetugas');
+            const waInput = document.getElementById('inputNoWAPetugas');
+            const nama = namaInput.value.trim();
+            const wa = waInput.value.trim();
+
+            if (!nama) return window.showToast("Nama petugas tidak boleh kosong!", true);
+
+            currentFormPetugas.push({ id: 'ptg_' + Date.now(), nama: nama, wa: wa });
+            namaInput.value = ''; waInput.value = '';
+            window.renderFormPetugasList();
+        }
+
+        window.hapusFormPetugas = function(index) {
+            currentFormPetugas.splice(index, 1);
+            window.renderFormPetugasList();
+        }
+
+        window.resetForm = function() {
+            document.getElementById('activityForm').reset();
+            currentFormPetugas = [];
+            window.renderFormPetugasList();
+        }
+
+        document.getElementById('activityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if(currentFormPetugas.length === 0) {
+                if(!confirm("Anda belum menambahkan petugas. Yakin ingin menyimpan tanpa petugas?")) return;
+            }
+
+            const btn = this.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
+            const newActivity = {
+                id: 'act_' + Date.now() + Math.random().toString(36).substr(2, 9),
+                nama: document.getElementById('namaKegiatan').value,
+                tanggal: document.getElementById('tanggalKegiatan').value,
+                tempat: document.getElementById('tempatKegiatan').value,
+                suratMasuk: document.getElementById('linkSuratMasuk').value,
+                fileSuratMasukName: document.getElementById('fileSuratMasuk').files[0]?.name || "",
+                laporan: document.getElementById('linkLaporan').value,
+                dokumentasi: document.getElementById('linkDokumentasi').value,
+                suratTugas: document.getElementById('linkSuratTugas').value,
+                fileSuratTugasName: document.getElementById('fileSuratTugas').files[0]?.name || "",
+                petugas: [...currentFormPetugas],
+                statusSuratTugas: (document.getElementById('linkSuratTugas').value || document.getElementById('fileSuratTugas').files[0]) ? "Tersedia" : "Belum Ada",
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                if(!currentUser) throw new Error("Akses ditolak, belum login");
+                activities.push(newActivity);
+                activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                saveToLocal(); // Simpan ke LocalStorage
+                window.showToast("Kegiatan berhasil disimpan!");
+                window.resetForm();
+                window.switchTab('dashboard');
+            } catch (error) {
+                console.error(error);
+                window.showToast("Gagal menyimpan data", true);
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        });
+
+        window.formatDate = function(dateString) {
+            if (!dateString) return "-";
+            return new Date(dateString).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        window.createLinkElement = function(url, fileName, label, icon, actId, fieldType, isEditing) {
+            if (isEditing) {
+                return `
+                    <div class="flex flex-col gap-1 w-full">
+                        <label class="text-[10px] uppercase text-gray-500 font-semibold"><i class="${icon}"></i> ${label} URL:</label>
+                        <input type="text" value="${url || ''}" id="edit_${fieldType}_${actId}" class="edit-input text-xs" placeholder="Link URL..." />
+                    </div>
+                `;
+            }
+            if (!url && !fileName) return `<span class="text-xs text-gray-400 flex items-center gap-1"><i class="${icon}"></i> ${label}: -</span>`;
+            if (url) return `<a href="${url}" target="_blank" class="text-xs text-kemkes-turquoise hover:underline flex items-center gap-1 truncate w-full" title="${url}"><i class="${icon}"></i> ${label}</a>`;
+            return `<span class="text-xs text-kemkes-greenYellow font-medium flex items-center gap-1 cursor-help truncate w-full" title="File fisik: ${fileName}"><i class="fa-solid fa-file"></i> ${label} (File)</span>`;
+        }
+
+        window.formatPetugasList = function(petugasArray, isEditing, actId) {
+            if (!petugasArray || petugasArray.length === 0) return '<span class="italic text-gray-400">Belum ada petugas</span>';
+            if (isEditing) {
+                let html = '<div id="edit_petugas_container_' + actId + '" class="space-y-2 mb-2">';
+                petugasArray.forEach((p) => {
+                    html += `
+                        <div class="flex gap-2 items-center edit-petugas-item">
+                            <input type="text" class="edit-input text-xs w-1/2 ptg-nama px-2 py-1.5" value="${p.nama}" placeholder="Nama Petugas">
+                            <input type="text" class="edit-input text-xs w-1/2 ptg-wa px-2 py-1.5" value="${p.wa || ''}" placeholder="No WhatsApp">
+                            <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-600 p-1" title="Hapus"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                html += `
+                    <button type="button" onclick="window.addEditPetugasField('${actId}')" class="text-[10px] font-medium bg-gray-100 hover:bg-gray-200 border border-gray-300 px-3 py-1.5 rounded-lg text-gray-700 flex items-center gap-1 transition-colors mt-1 w-full justify-center">
+                        <i class="fa-solid fa-plus"></i> Tambah Anggota
+                    </button>
+                `;
+                return html;
+            }
+            const lis = petugasArray.map(p => 
+                `<li class="mb-1 truncate"><span class="font-medium">${p.nama}</span> ${p.wa ? `<a href="https://wa.me/${p.wa.replace(/[^0-9]/g, '')}" target="_blank" class="text-green-500 hover:text-green-700 ml-1" title="Chat WA"><i class="fa-brands fa-whatsapp"></i></a>` : ''}</li>`
+            ).join('');
+            return `<ul class="list-disc pl-4">${lis}</ul>`;
+        }
+
+        window.addEditPetugasField = function(actId) {
+            const container = document.getElementById(`edit_petugas_container_${actId}`);
+            if (container) {
+                const div = document.createElement('div');
+                div.className = "flex gap-2 items-center edit-petugas-item mt-2 animate-[fadeIn_0.2s_ease-in-out]";
+                div.innerHTML = `
+                    <input type="text" class="edit-input text-xs w-1/2 ptg-nama px-2 py-1.5" placeholder="Nama Petugas">
+                    <input type="text" class="edit-input text-xs w-1/2 ptg-wa px-2 py-1.5" placeholder="No WhatsApp">
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-600 p-1" title="Hapus"><i class="fa-solid fa-times"></i></button>
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        window.renderActivities = function(filterText = "") {
+            const container = document.getElementById('activitiesContainer');
+            const emptyState = document.getElementById('emptyState');
+            container.innerHTML = '';
+            
+            const filteredActivities = activities.filter(act => {
+                const searchStr = filterText.toLowerCase();
+                return act.nama.toLowerCase().includes(searchStr) || 
+                       act.tempat.toLowerCase().includes(searchStr) || 
+                       (Array.isArray(act.petugas) && act.petugas.some(p => p.nama.toLowerCase().includes(searchStr) || (p.wa && p.wa.includes(searchStr))));
+            });
+
+            if (filteredActivities.length === 0) {
+                container.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                if(filterText !== "") {
+                    emptyState.querySelector('h3').textContent = "Tidak ada hasil pencarian";
+                    emptyState.querySelector('p').textContent = `Pencarian "${filterText}" tidak ditemukan.`;
+                    emptyState.querySelector('button').classList.add('hidden');
+                } else {
+                    emptyState.querySelector('h3').textContent = "Belum ada kegiatan";
+                    emptyState.querySelector('p').textContent = "Data kegiatan promosi kesehatan yang ditambahkan akan muncul di sini.";
+                    emptyState.querySelector('button').classList.remove('hidden');
+                }
+                return;
+            }
+
+            container.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            filteredActivities.forEach(act => {
+                const isEditing = editingActivityId === act.id;
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl border ${isEditing ? 'border-kemkes-turquoise shadow-md ring-1 ring-kemkes-turquoise/30' : 'border-gray-100 shadow-sm hover:shadow-md'} transition-shadow p-5 flex flex-col relative overflow-hidden group`;
+                
+                const statusColor = act.statusSuratTugas === 'Tersedia' ? 'bg-kemkes-turquoise' : 'bg-amber-400';
+                
+                card.innerHTML = `
+                    <div class="absolute left-0 top-0 bottom-0 w-1 ${statusColor}"></div>
+                    <div class="flex justify-between items-start mb-3 pl-2 gap-2">
+                        <div class="w-full">
+                            ${isEditing ? `<input type="text" id="edit_nama_${act.id}" class="edit-input font-bold text-lg mb-1" value="${act.nama}">` : `<h3 class="font-bold text-gray-800 text-lg leading-tight w-3/4 truncate">${act.nama}</h3>`}
+                        </div>
+                        ${!isEditing ? `<span class="text-[10px] uppercase font-bold px-2 py-1 rounded-full whitespace-nowrap ${act.statusSuratTugas === 'Tersedia' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">ST: ${act.statusSuratTugas}</span>` : ''}
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 pl-2 flex-grow">
+                        <div class="text-sm text-gray-600 flex items-center gap-2">
+                            <i class="fa-regular fa-calendar text-kemkes-grey w-4 text-center"></i>
+                            <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="date" id="edit_tanggal_${act.id}" class="edit-input text-sm" value="${act.tanggal}">` : `<span class="truncate">${window.formatDate(act.tanggal)}</span>`}</div>
+                        </div>
+                        <div class="text-sm text-gray-600 flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-kemkes-grey w-4 text-center"></i>
+                            <div class="flex-1 w-full overflow-hidden">${isEditing ? `<input type="text" id="edit_tempat_${act.id}" class="edit-input text-sm" value="${act.tempat}">` : `<span class="truncate">${act.tempat}</span>`}</div>
+                        </div>
+                        <div class="pt-2">
+                            <p class="text-[10px] font-semibold text-gray-500 mb-1 uppercase tracking-wider">Petugas Pelaksana:</p>
+                            <div class="text-sm text-gray-700 bg-gray-50 p-2 rounded-lg border border-gray-100 max-h-24 overflow-y-auto w-full">
+                                ${window.formatPetugasList(act.petugas, isEditing, act.id)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100 ml-2">
+                        ${window.createLinkElement(act.suratMasuk, act.fileSuratMasukName, "Permohonan", "fa-solid fa-envelope-open-text", act.id, 'suratMasuk', isEditing)}
+                        ${window.createLinkElement(act.suratTugas, act.fileSuratTugasName, "Surat Tugas", "fa-solid fa-file-signature", act.id, 'suratTugas', isEditing)}
+                        ${window.createLinkElement(act.dokumentasi, "", "Dokumentasi", "fa-regular fa-images", act.id, 'dokumentasi', isEditing)}
+                        ${window.createLinkElement(act.laporan, "", "Laporan", "fa-solid fa-file-lines", act.id, 'laporan', isEditing)}
+                    </div>
+                    
+                    <div class="mt-auto pt-3 border-t border-gray-100 pl-2 flex justify-between items-center h-10">
+                        <div class="flex items-center gap-1">
+                            ${isEditing ? `
+                                <button onclick="window.saveEdit('${act.id}')" class="flex items-center gap-1 bg-kemkes-turquoise hover:bg-kemkes-darkTurquoise text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"><i class="fa-solid fa-check"></i> Simpan</button>
+                                <button onclick="window.cancelEdit()" class="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">Batal</button>
+                            ` : `
+                                <button onclick="window.startEdit('${act.id}')" class="text-xs text-gray-500 hover:text-kemkes-turquoise font-medium transition-colors p-1" title="Edit Kegiatan"><i class="fa-solid fa-pencil"></i> Edit</button>
+                                <button onclick="window.deleteActivity('${act.id}')" class="text-xs text-gray-500 hover:text-red-500 font-medium transition-colors p-1 ml-1" title="Hapus Kegiatan"><i class="fa-solid fa-trash-can"></i></button>
+                            `}
+                        </div>
+                        ${!isEditing ? `<button onclick="window.shareToWA('${act.id}')" class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm ml-auto"><i class="fa-brands fa-whatsapp text-lg"></i> <span class="hidden sm:inline">Share Info</span></button>` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.filterActivities = function() { window.renderActivities(document.getElementById('searchInput').value); }
+        window.startEdit = function(id) { editingActivityId = id; window.renderActivities(document.getElementById('searchInput').value); }
+        window.cancelEdit = function() { editingActivityId = null; window.renderActivities(document.getElementById('searchInput').value); }
+
+        window.saveEdit = function(id) {
+            const index = activities.findIndex(a => a.id === id);
+            if (index !== -1) {
+                const newSuratTugas = document.getElementById(`edit_suratTugas_${id}`).value;
+                const petugasItems = document.querySelectorAll(`#edit_petugas_container_${id} .edit-petugas-item`);
+                const newPetugasArray = [];
+                petugasItems.forEach(item => {
+                    const n = item.querySelector('.ptg-nama').value.trim();
+                    const w = item.querySelector('.ptg-wa').value.trim();
+                    if (n) newPetugasArray.push({ id: 'ptg_' + Date.now() + Math.random(), nama: n, wa: w });
+                });
+
+                activities[index] = {
+                    ...activities[index],
+                    nama: document.getElementById(`edit_nama_${id}`).value,
+                    tanggal: document.getElementById(`edit_tanggal_${id}`).value,
+                    tempat: document.getElementById(`edit_tempat_${id}`).value,
+                    suratMasuk: document.getElementById(`edit_suratMasuk_${id}`).value,
+                    suratTugas: newSuratTugas,
+                    dokumentasi: document.getElementById(`edit_dokumentasi_${id}`).value,
+                    laporan: document.getElementById(`edit_laporan_${id}`).value,
+                    petugas: newPetugasArray,
+                    statusSuratTugas: newSuratTugas || activities[index].fileSuratTugasName ? "Tersedia" : "Belum Ada"
+                };
+
+                try {
+                    if(!currentUser) return window.showToast("Belum login", true);
+                    activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                    saveToLocal(); // Simpan perubahan
+                    editingActivityId = null;
+                    window.renderActivities();
+                    window.showToast("Data kegiatan diperbarui!");
+                } catch (error) {
+                    console.error(error);
+                    window.showToast("Gagal memperbarui data", true);
+                }
+            }
+        }
+
+        window.deleteActivity = function(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus kegiatan ini?")) {
+                try {
+                    if(!currentUser) return window.showToast("Belum login", true);
+                    activities = activities.filter(a => a.id !== id);
+                    saveToLocal(); // Simpan penghapusan
+                    window.renderActivities();
+                    window.showToast("Kegiatan berhasil dihapus.");
+                } catch (error) {
+                    console.error(error);
+                    window.showToast("Gagal menghapus data", true);
+                }
+            }
+        }
+
+        window.shareToWA = function(id) {
+            const act = activities.find(a => a.id === id);
+            if (!act) return;
+
+            let message = `*INFO KEGIATAN PROMKES RS KEMENKES SURABAYA*\n\n*Kegiatan:* ${act.nama}\n*Tanggal:* ${window.formatDate(act.tanggal)}\n*Tempat:* ${act.tempat}\n\n*Petugas Ditugaskan:*\n`;
+            
+            if (Array.isArray(act.petugas) && act.petugas.length > 0) {
+                act.petugas.forEach(p => { message += `- ${p.nama} ${p.wa ? `(${p.wa})` : ''}\n`; });
+            } else { message += `- Belum ada data petugas\n`; }
+            message += `\n`;
+
+            if (act.suratTugas || act.fileSuratTugasName) {
+                message += `*Surat Tugas:*\n${act.suratTugas ? act.suratTugas : `(File Fisik: ${act.fileSuratTugasName})`}\n\n`;
+            } else { message += `*Surat Tugas:* Sedang diproses / Belum diupload.\n\n`; }
+            
+            if (act.dokumentasi) message += `*Folder Dokumentasi:*\n${act.dokumentasi}\n\n`;
+
+            message += `Mohon kehadirannya tepat waktu. Terima kasih. \n_- Tim Promkes RS Kemenkes Surabaya_`;
+
+            const encodedMessage = encodeURIComponent(message);
+            let targetWA = '';
+            if (Array.isArray(act.petugas)) {
+                 const firstWithWA = act.petugas.find(p => p.wa && p.wa.trim() !== '');
+                 if (firstWithWA) targetWA = firstWithWA.wa.replace(/[^0-9]/g, '');
+            }
+            
+            if (targetWA) window.open(`https://wa.me/${targetWA}?text=${encodedMessage}`, '_blank');
+            else window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+        }
+
+        // Setup dasar awal animasi
+        document.addEventListener('DOMContentLoaded', () => {
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
