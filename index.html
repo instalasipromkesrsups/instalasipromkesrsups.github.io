@@ -836,7 +836,7 @@
                             </td>
                             <td class="px-4 py-3 hidden md:table-cell text-xs align-top pt-4">
                                 ${act.petugas && act.petugas.length > 0 ? 
-                                    '<ul class="list-disc pl-3 text-gray-600">' + act.petugas.map(p => `<li>${p.nama}</li>`).join('') + '</ul>' 
+                                    '<ul class="list-disc pl-3 text-gray-600">' + act.petugas.map(p => `<li>${p.nama} ${p.wa ? `<span class="text-green-600 text-[10px]">(${p.wa})</span>` : ''}</li>`).join('') + '</ul>' 
                                     : '<span class="italic text-gray-400">Belum ada data</span>'}
                             </td>
                             <td class="px-4 py-3 text-center align-top pt-4">
@@ -982,6 +982,7 @@
                 suratTugasText = `(File Fisik: ${act.fileSuratTugasName})`;
             }
 
+            // Exact requested WhatsApp message template
             let message = `Yth. Bapak/Ibu Petugas Terlampir,\nBerikut adalah detail penugasan kegiatan:\n\n`;
             message += `📌 *Nama Agenda:* ${act.nama}\n`;
             message += `📅 *Tanggal:* ${window.formatDate(act.tanggal)}\n`;
@@ -991,14 +992,25 @@
 
             const encodedMessage = encodeURIComponent(message);
             
-            let targetWA = '';
-            if (Array.isArray(act.petugas)) {
-                 const firstWithWA = act.petugas.find(p => p.wa && p.wa.trim() !== '');
-                 if (firstWithWA) targetWA = firstWithWA.wa.replace(/[^0-9]/g, '');
+            // Collect all officer WhatsApp numbers or fallback to web broadcast
+            let targets = [];
+            if (Array.isArray(act.petugas) && act.petugas.length > 0) {
+                act.petugas.forEach(p => {
+                    if (p.wa && p.wa.trim() !== '') {
+                        targets.push(p.wa.replace(/[^0-9]/g, ''));
+                    }
+                });
             }
-            
-            if (targetWA) window.open(`https://wa.me/${targetWA}?text=${encodedMessage}`, '_blank');
-            else window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+
+            if (targets.length > 0) {
+                // If multiple officers have numbers, prompt or open the first one and show guidance
+                window.open(`https://wa.me/${targets[0]}?text=${encodedMessage}`, '_blank');
+                if (targets.length > 1) {
+                    window.showToast(`Membuka WhatsApp untuk petugas pertama (${targets.length} petugas terdaftar).`);
+                }
+            } else {
+                window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+            }
         }
 
         window.renderDatabasePetugas = function() {
