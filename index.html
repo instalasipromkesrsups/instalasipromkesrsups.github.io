@@ -559,7 +559,6 @@
             document.getElementById('petugasSuggestions').classList.add('hidden');
         }
 
-        // Tutup kotak saran jika klik di luar
         document.addEventListener('click', function(e) {
             const sugg = document.getElementById('petugasSuggestions');
             if(sugg && !e.target.closest('#inputNamaPetugas') && !e.target.closest('#petugasSuggestions')) {
@@ -647,8 +646,6 @@
                 activities.push(newActivity);
                 activities.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
                 saveToLocal();
-                
-                // Simpan ke database autocomplete
                 window.updateDatabasePetugas(currentFormPetugas);
                 
                 window.showToast("Kegiatan berhasil disimpan!");
@@ -746,7 +743,7 @@
             
             const filteredActivities = activities.filter(act => {
                 const searchStr = filterText.toLowerCase();
-                const formattedDate = window.formatDate(act.tanggal).toLowerCase(); // allows searching by readable dates
+                const formattedDate = window.formatDate(act.tanggal).toLowerCase();
                 
                 return act.nama.toLowerCase().includes(searchStr) || 
                        act.tempat.toLowerCase().includes(searchStr) ||
@@ -863,7 +860,6 @@
                 container.appendChild(tableWrap);
 
             } else {
-                // Card View Mode
                 container.className = "grid grid-cols-1 lg:grid-cols-2 gap-6 w-full";
                 filteredActivities.forEach(act => {
                     const isEditing = editingActivityId === act.id;
